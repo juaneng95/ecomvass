@@ -1,0 +1,52 @@
+components:
+  schemas:
+    PriceDto:
+      title: Application Price DTO
+      description:  object to return data from external layer.
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        brandId:
+          type: integer
+          format: int64
+        startDate:
+          type: string
+        endDate:
+          type: string
+        priceList:
+          type: integer
+          format: int32
+        productId:
+          type: integer
+          format: int32
+        priority:
+          type: integer
+          format: int32
+        price:
+          type: number
+          format: float
+        curr:
+          type: string
+    PriceQueryDto:
+      title: Application PriceQuery DTO
+      description: object to return data from external layer.
+      type: object
+      properties:
+        productId:
+          type: integer
+          format: int32
+        brandId:
+          type: integer
+          format: int64
+        priceList:
+          type: integer
+          format: int32
+        startDate:
+          type: string
+        endDate:
+          type: string
+        price:
+          type: number
+          format: float

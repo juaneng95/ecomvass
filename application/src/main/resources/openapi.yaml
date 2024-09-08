@@ -1,0 +1,70 @@
+openapi: 3.0.1
+info:
+  title: Electronic Commerce
+  description: Electronic commerce API.
+  version: 0.0.1
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+tags:
+  - name: Ecom
+    description: Electronic commerce tag.
+paths:
+  /ecom/list:
+    get:
+      tags:
+        - Ecom
+      summary: Call to Ecom controller to list all price items.
+      description: Hook to list all price items in H2 database.
+      operationId: getAllPrices
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'prices-components-schemas.yaml#/components/schemas/PriceDto'
+  /ecom/list/price:
+    get:
+      tags:
+        - Ecom
+      summary: Call to Ecom controller to list price items delimited by query.
+      description: Hook to list price items delimited by query in H2 database.
+      operationId: getPriceByCriteriaQuery
+      parameters:
+        - in: query
+          name: requiredDate
+          schema:
+            type: string
+            format: timestamp
+            pattern: '^([0-9]{4})-(0?[1-9]|[1][0-2])-(0?[1-9]|[12][0-9]|3[01])\s(0?[0-9]|1[0-9]|2[0-3]):(0?[0-9]|[1-5][0-9]):(0?[0-9]|[1-5][0-9])$'
+          required: true
+          description: requiredDate exactly like (2020-06-14 15:01:00).
+        - in: query
+          name: productId
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 50000
+          required: true
+          description: Product code identifier (35455).
+        - in: query
+          name: brandId
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 100
+          required: true
+          description: foreign key of the group string (1 = ZARA).
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: 'prices-components-schemas.yaml#/components/schemas/PriceQueryDto'
+

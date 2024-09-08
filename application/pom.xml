@@ -10,11 +10,96 @@
     </parent>
 
     <artifactId>application</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>application</name>
+    <description>Application layer from ecomvass artifact</description>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <module.domain.version>0.0.1-SNAPSHOT</module.domain.version>
+        <springdoc.openapi.version>2.6.0</springdoc.openapi.version>
+        <jackson.databind.nullable.version>0.2.1</jackson.databind.nullable.version>
+        <openapi.generator.maven.plugin.version>6.2.1</openapi.generator.maven.plugin.version>
     </properties>
+
+    <dependencies>
+        <!-- DOMAIN MODULE -->
+        <dependency>
+            <groupId>com.vass.inditex</groupId>
+            <artifactId>domain</artifactId>
+            <version>${module.domain.version}</version>
+        </dependency>
+        <!-- STARTER WEB -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- SPRINGDOC-OPENAPI-STARTER-WEBMVC-UI -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${springdoc.openapi.version}</version>
+        </dependency>
+        <!-- JACKSON DATABIND NULLABLE -->
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>${jackson.databind.nullable.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- JACOCO -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <id>jacoco-prepare-agent</id>
+                    </execution>
+                    <execution>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <id>jacoco-report</id>
+                        <phase>test</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- OPEN API TOOLS -->
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>${openapi.generator.maven.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>
+                                ${project.basedir}/src/main/resources/openapi.yaml
+                            </inputSpec>
+                            <generatorName>spring</generatorName>
+                            <packageName>com.vass.inditex.application</packageName>
+                            <apiPackage>com.vass.inditex.application.api</apiPackage>
+                            <modelPackage>com.vass.inditex.application.model</modelPackage>
+                            <configOptions>
+                                <useTags>true</useTags>
+                                <interfaceOnly>true</interfaceOnly>
+                                <unhandledException>true</unhandledException>
+                                <useSpringBoot3>true</useSpringBoot3>
+                                <useJakartaEe>true</useJakartaEe>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
